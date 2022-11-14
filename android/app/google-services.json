@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "364508896914",
+    "project_id": "kshriapp",
+    "storage_bucket": "kshriapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364508896914:android:b8432f90fc6522783a904b",
+        "android_client_info": {
+          "package_name": "kshri.app.kshri2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "364508896914-dfaubvikqld2thdn7hkv5g11h63pl115.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEKU-KYqhSybTOBpez4b6iTptENcCsWg0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "364508896914-dfaubvikqld2thdn7hkv5g11h63pl115.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
