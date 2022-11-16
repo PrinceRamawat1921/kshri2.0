@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:kshri2/resources/authentication_methods.dart';
 import 'package:kshri2/utils/color_themes.dart';
 import 'package:kshri2/utils/constants.dart';
 import 'package:kshri2/utils/utils.dart';
@@ -17,6 +20,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  AuthenticationMethods authenticationMethods = AuthenticationMethods();
 
   @override
   void dispose() {
@@ -92,7 +96,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             TextFieldWidget(
                               title: "Password",
                               controller: passwordController,
-                              obscureText: false,
+                              obscureText: true,
                               hintText: "Enter Your Password",
                             ),
                             Align(
@@ -101,13 +105,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 child: const Text(
                                   "Sign Up",
                                   style: TextStyle(
-                                    letterSpacing: 0.6,
-                                    color: Colors.black,
-                                  ),
+                                      letterSpacing: 0.6, color: Colors.black),
                                 ),
                                 color: yellowColor,
                                 isLoading: false,
-                                onPressed: () {},
+                                onPressed: () async {
+                                  String output =
+                                      await authenticationMethods.signUpUser(
+                                    name: nameController.text,
+                                    address: addressController.text,
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  );
+
+                                  if (output == "success") {
+                                    log("doing next step");
+                                  } else {
+                                    log(output);
+                                  }
+                                },
                               ),
                             ),
                           ],
