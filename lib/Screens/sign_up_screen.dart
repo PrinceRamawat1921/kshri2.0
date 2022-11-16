@@ -5,8 +5,8 @@ import 'package:kshri2/resources/authentication_methods.dart';
 import 'package:kshri2/utils/color_themes.dart';
 import 'package:kshri2/utils/constants.dart';
 import 'package:kshri2/utils/utils.dart';
-import 'package:kshri2/widget/custom_main_button.dart';
-import 'package:kshri2/widget/text_field_widget.dart';
+import 'package:kshri2/widgets/custom_main_button.dart';
+import 'package:kshri2/widgets/text_field_widget.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
