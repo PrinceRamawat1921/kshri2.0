@@ -1,6 +1,6 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:kshri2/Screens/sign_in_screen.dart';
 import 'package:kshri2/resources/authentication_methods.dart';
 import 'package:kshri2/utils/color_themes.dart';
 import 'package:kshri2/utils/constants.dart';
@@ -21,6 +21,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController addressController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   AuthenticationMethods authenticationMethods = AuthenticationMethods();
+  bool isLoading = false;
 
   @override
   void dispose() {
@@ -108,8 +109,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       letterSpacing: 0.6, color: Colors.black),
                                 ),
                                 color: yellowColor,
-                                isLoading: false,
+                                isLoading: isLoading,
                                 onPressed: () async {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
                                   String output =
                                       await authenticationMethods.signUpUser(
                                     name: nameController.text,
@@ -118,10 +122,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     password: passwordController.text,
                                   );
 
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+
                                   if (output == "success") {
-                                    log("doing next step");
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const SignInScreen()));
                                   } else {
-                                    log(output);
+                                    Utils().showSnackBar(
+                                        context: context, content: output);
                                   }
                                 },
                               ),
@@ -142,7 +155,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     color: Colors.grey[400]!,
                     isLoading: false,
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return const SignInScreen();
+                        }),
+                      );
                     },
                   )
                 ],

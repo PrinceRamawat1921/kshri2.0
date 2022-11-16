@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kshri2/Screens/sign_up_screen.dart';
+import 'package:kshri2/resources/authentication_methods.dart';
 import 'package:kshri2/utils/color_themes.dart';
 import 'package:kshri2/utils/constants.dart';
 import 'package:kshri2/utils/utils.dart';
@@ -16,6 +17,9 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  AuthenticationMethods authenticationMethods = AuthenticationMethods();
+  bool isLoading = false;
+
   @override
   void dispose() {
     super.dispose();
@@ -73,7 +77,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         TextFieldWidget(
                           title: "Password",
                           controller: passwordController,
-                          obscureText: false,
+                          obscureText: true,
                           hintText: "Enter Your Password",
                         ),
                         Align(
@@ -87,8 +91,27 @@ class _SignInScreenState extends State<SignInScreen> {
                               ),
                             ),
                             color: yellowColor,
-                            isLoading: false,
-                            onPressed: () {},
+                            isLoading: isLoading,
+                            onPressed: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              String output =
+                                  await authenticationMethods.signInUser(
+                                email: emailController.text,
+                                password: passwordController.text,
+                              );
+
+                              setState(() {
+                                isLoading = false;
+                              });
+
+                              if (output == "success") {
+                              } else {
+                                Utils().showSnackBar(
+                                    context: context, content: output);
+                              }
+                            },
                           ),
                         ),
                       ],
@@ -130,7 +153,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     color: Colors.grey[400]!,
                     isLoading: false,
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) {
                           return const SignUpScreen();

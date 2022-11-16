@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -28,11 +29,33 @@ class Kshri extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: "Kshri",
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData.light().copyWith(
-          scaffoldBackgroundColor: backgroundColor,
-        ),
-        home: const SignInScreen());
+      title: "Kshri",
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.light().copyWith(
+        scaffoldBackgroundColor: backgroundColor,
+      ),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, AsyncSnapshot<User?> user) {
+          if (user.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Colors.orange,
+              ),
+            );
+          } else if (user.hasData) {
+            print("uid- ${FirebaseAuth.instance.currentUser!.uid}");
+            return ElevatedButton(
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+              },
+              child: const Text("Sign Out"),
+            );
+          } else {
+            return const SignInScreen();
+          }
+        },
+      ),
+    );
   }
 }
