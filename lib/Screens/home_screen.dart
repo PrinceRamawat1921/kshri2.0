@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kshri2/widgets/categories_horizontal_list_view_bar.dart';
 import 'package:kshri2/widgets/search_bar_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,8 +17,10 @@ class _HomeScreenState extends State<HomeScreen> {
         isReadOnly: true,
         hasBackButton: false,
       ),
-      body: Center(
-        child: Text("Home Screen"),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [CategoriesHorizontalListViewBar()],
+        ),
       ),
     );
   }
