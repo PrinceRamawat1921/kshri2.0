@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kshri2/Screens/sign_in_screen.dart';
+import 'package:kshri2/layout/screen_layout.dart';
 import 'package:kshri2/utils/color_themes.dart';
 
 void main() async {
@@ -44,13 +45,7 @@ class Kshri extends StatelessWidget {
               ),
             );
           } else if (user.hasData) {
-            print("uid- ${FirebaseAuth.instance.currentUser!.uid}");
-            return ElevatedButton(
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-              },
-              child: const Text("Sign Out"),
-            );
+            return const ScreenLayout();
           } else {
             return const SignInScreen();
           }
