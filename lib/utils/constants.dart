@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kshri2/Screens/home_screen.dart';
 
 const double kAppBarHeight = 80;
 
@@ -15,6 +16,22 @@ const List<String> categoriesList = [
   "Appliances",
   "Books, Toys",
   "Essential"
+];
+
+const List<Widget> screens = [
+  HomeScreen(),
+  Center(
+    child: Text("Home Screen"),
+  ),
+  Center(
+    child: Text("Account Screen"),
+  ),
+  Center(
+    child: Text("Cart Screen"),
+  ),
+  Center(
+    child: Text("More Screen"),
+  ),
 ];
 
 const List<String> categoryLogos = [
