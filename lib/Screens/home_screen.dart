@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kshri2/widgets/banner_ad_widget.dart';
 import 'package:kshri2/widgets/categories_horizontal_list_view_bar.dart';
 import 'package:kshri2/widgets/search_bar_widget.dart';
 
@@ -19,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: [CategoriesHorizontalListViewBar()],
+          children: [CategoriesHorizontalListViewBar(), BannerAdWidget()],
         ),
       ),
     );
