@@ -10,15 +10,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
     await Firebase.initializeApp(
-      options: const FirebaseOptions(
-        apiKey: "AIzaSyBrJGeYTFwoG6c5PvCf85EeLrCYk1Hl1I0",
-        authDomain: "kshriapp.firebaseapp.com",
-        projectId: "kshriapp",
-        storageBucket: "kshriapp.appspot.com",
-        messagingSenderId: "364508896914",
-        appId: "1:364508896914:web:b8fbae669c0295163a904b",
-      ),
-    );
+        options: const FirebaseOptions(
+      apiKey: "AIzaSyBrJGeYTFwoG6c5PvCf85EeLrCYk1Hl1I0",
+      authDomain: "kshriapp.firebaseapp.com",
+      projectId: "kshriapp",
+      storageBucket: "kshriapp.appspot.com",
+      messagingSenderId: "364508896914",
+      appId: "1:364508896914:web:b8fbae669c0295163a904b",
+    ));
   } else {
     await Firebase.initializeApp();
   }
