@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kshri2/Screens/account_screen.dart';
+import 'package:kshri2/Screens/cart_screen.dart';
 import 'package:kshri2/Screens/home_screen.dart';
+import 'package:kshri2/Screens/more_screen.dart';
 import 'package:kshri2/widgets/simple_product_widget.dart';
 
 const double kAppBarHeight = 80;
@@ -23,12 +25,8 @@ const List<String> categoriesList = [
 const List<Widget> screens = [
   HomeScreen(),
   AccountScreen(),
-  Center(
-    child: Text("Cart Screen"),
-  ),
-  Center(
-    child: Text("More Screen"),
-  ),
+  CartScreen(),
+  MoreScreen(),
 ];
 
 const List<String> categoryLogos = [
