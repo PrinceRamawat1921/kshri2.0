@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kshri2/Screens/results_screen.dart';
 import 'package:kshri2/Screens/search_screen.dart';
 import 'package:kshri2/utils/color_themes.dart';
 import 'package:kshri2/utils/constants.dart';
@@ -61,6 +62,16 @@ class SearchBarWidget extends StatelessWidget with PreferredSizeWidget {
                 ],
               ),
               child: TextField(
+                onSubmitted: (String query) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ResultsScreen(
+                        query: query,
+                      ),
+                    ),
+                  );
+                },
                 readOnly: isReadOnly,
                 onTap: () {
                   if (isReadOnly) {
