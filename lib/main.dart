@@ -7,7 +7,9 @@ import 'package:kshri2/Screens/results_screen.dart';
 import 'package:kshri2/Screens/sign_in_screen.dart';
 import 'package:kshri2/layout/screen_layout.dart';
 import 'package:kshri2/model/product_model.dart';
+import 'package:kshri2/providers/user_details_provider.dart';
 import 'package:kshri2/utils/color_themes.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,27 +34,30 @@ class Kshri extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Kshri",
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.light().copyWith(
-        scaffoldBackgroundColor: backgroundColor,
-      ),
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, AsyncSnapshot<User?> user) {
-          if (user.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: Colors.orange,
-              ),
-            );
-          } else if (user.hasData) {
-            return const ScreenLayout();
-          } else {
-            return const SignInScreen();
-          }
-        },
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => UserDetailsProvider())],
+      child: MaterialApp(
+        title: "Kshri",
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.light().copyWith(
+          scaffoldBackgroundColor: backgroundColor,
+        ),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, AsyncSnapshot<User?> user) {
+            if (user.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.orange,
+                ),
+              );
+            } else if (user.hasData) {
+              return const ScreenLayout();
+            } else {
+              return const SignInScreen();
+            }
+          },
+        ),
       ),
     );
   }

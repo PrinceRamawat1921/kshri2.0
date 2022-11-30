@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:kshri2/model/user_details_model.dart';
+import 'package:kshri2/providers/user_details_provider.dart';
 import 'package:kshri2/utils/color_themes.dart';
 import 'package:kshri2/utils/constants.dart';
 import 'package:kshri2/utils/utils.dart';
 import 'package:kshri2/widgets/account_screen_app_bar.dart';
 import 'package:kshri2/widgets/custom_main_button.dart';
 import 'package:kshri2/widgets/products_showcase_list_view.dart';
+import 'package:provider/provider.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -96,6 +99,8 @@ class IntroductionWidgetAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserDetailsModel userDetailsModel =
+        Provider.of<UserDetailsProvider>(context).userDetails;
     return Container(
       height: kAppBarHeight / 2,
       decoration: const BoxDecoration(
@@ -133,7 +138,7 @@ class IntroductionWidgetAccountScreen extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: "Prince ",
+                      text: "${userDetailsModel.name}",
                       style: TextStyle(
                         color: Colors.grey[800],
                         fontSize: 26,

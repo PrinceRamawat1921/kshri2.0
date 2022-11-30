@@ -146,8 +146,6 @@ class _ProductScreenState extends State<ProductScreen> {
             )),
             UserDetailsBar(
               offset: 0,
-              userDetails:
-                  UserDetailsModel(name: "Prince", address: "Dhenkikote"),
             ),
           ],
         ),

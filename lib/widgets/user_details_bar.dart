@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:kshri2/model/user_details_model.dart';
+import 'package:kshri2/providers/user_details_provider.dart';
 import 'package:kshri2/utils/color_themes.dart';
 import 'package:kshri2/utils/constants.dart';
 import 'package:kshri2/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 class UserDetailsBar extends StatelessWidget {
   final double offset;
-  final UserDetailsModel userDetails;
+
   const UserDetailsBar({
     super.key,
     required this.offset,
-    required this.userDetails,
   });
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = Utils().getScreenSize();
+    UserDetailsModel userDetails =
+        Provider.of<UserDetailsProvider>(context).userDetails;
     return Positioned(
       top: -offset / 3,
       child: Container(
