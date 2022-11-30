@@ -3,6 +3,7 @@ import 'package:kshri2/Screens/account_screen.dart';
 import 'package:kshri2/Screens/cart_screen.dart';
 import 'package:kshri2/Screens/home_screen.dart';
 import 'package:kshri2/Screens/more_screen.dart';
+import 'package:kshri2/model/product_model.dart';
 import 'package:kshri2/widgets/simple_product_widget.dart';
 
 const double kAppBarHeight = 80;
@@ -69,15 +70,81 @@ const String amazonLogo =
 
 List<Widget> testChildren = [
   SimpleProductWidget(
-      url: "https://m.media-amazon.com/images/I/11uufjN3lYL._SX90_SY90_.png"),
+    productModel: ProductModel(
+      url:
+          "https://th.bing.com/th/id/R.6ecfcb4758fc8601eacf6cb9e02d9c7a?rik=cFXCxmmk%2fkjHoQ&riu=http%3a%2f%2feachdesk.com%2fgallery3%2f30%2ff4%2f74628%2f074628-1-02.jpg&ehk=Epf%2bO%2b27tTuK5GogqBZJP%2b1Gx6845ugFgYMQ15oHMtU%3d&risl=&pid=ImgRaw&r=0",
+      productName: "Red Hoodie",
+      cost: 1099,
+      discount: 0,
+      uid: "sdadas",
+      sellerName: "kshri",
+      sellerUid: "esfeds",
+      rating: 1,
+      noOfRating: 1,
+    ),
+  ),
   SimpleProductWidget(
-      url: "https://m.media-amazon.com/images/I/116KbsvwCRL._SX90_SY90_.png"),
+    productModel: ProductModel(
+      url:
+          "https://th.bing.com/th/id/R.6ecfcb4758fc8601eacf6cb9e02d9c7a?rik=cFXCxmmk%2fkjHoQ&riu=http%3a%2f%2feachdesk.com%2fgallery3%2f30%2ff4%2f74628%2f074628-1-02.jpg&ehk=Epf%2bO%2b27tTuK5GogqBZJP%2b1Gx6845ugFgYMQ15oHMtU%3d&risl=&pid=ImgRaw&r=0",
+      productName: "Red Hoodie",
+      cost: 1099,
+      discount: 0,
+      uid: "sdadas",
+      sellerName: "kshri",
+      sellerUid: "esfeds",
+      rating: 1,
+      noOfRating: 1,
+    ),
+  ),
   SimpleProductWidget(
-      url: "https://m.media-amazon.com/images/I/11uufjN3lYL._SX90_SY90_.png"),
+    productModel: ProductModel(
+      url:
+          "https://th.bing.com/th/id/R.6ecfcb4758fc8601eacf6cb9e02d9c7a?rik=cFXCxmmk%2fkjHoQ&riu=http%3a%2f%2feachdesk.com%2fgallery3%2f30%2ff4%2f74628%2f074628-1-02.jpg&ehk=Epf%2bO%2b27tTuK5GogqBZJP%2b1Gx6845ugFgYMQ15oHMtU%3d&risl=&pid=ImgRaw&r=0",
+      productName: "Red Hoodie",
+      cost: 1099,
+      discount: 0,
+      uid: "sdadas",
+      sellerName: "kshri",
+      sellerUid: "esfeds",
+      rating: 1,
+      noOfRating: 1,
+    ),
+  ),
   SimpleProductWidget(
-      url: "https://m.media-amazon.com/images/I/116KbsvwCRL._SX90_SY90_.png"),
+    productModel: ProductModel(
+      url:
+          "https://th.bing.com/th/id/R.6ecfcb4758fc8601eacf6cb9e02d9c7a?rik=cFXCxmmk%2fkjHoQ&riu=http%3a%2f%2feachdesk.com%2fgallery3%2f30%2ff4%2f74628%2f074628-1-02.jpg&ehk=Epf%2bO%2b27tTuK5GogqBZJP%2b1Gx6845ugFgYMQ15oHMtU%3d&risl=&pid=ImgRaw&r=0",
+      productName: "Red Hoodie",
+      cost: 1099,
+      discount: 0,
+      uid: "sdadas",
+      sellerName: "kshri",
+      sellerUid: "esfeds",
+      rating: 1,
+      noOfRating: 1,
+    ),
+  ),
   SimpleProductWidget(
-      url: "https://m.media-amazon.com/images/I/11uufjN3lYL._SX90_SY90_.png"),
-  SimpleProductWidget(
-      url: "https://m.media-amazon.com/images/I/116KbsvwCRL._SX90_SY90_.png"),
+    productModel: ProductModel(
+      url:
+          "https://th.bing.com/th/id/R.6ecfcb4758fc8601eacf6cb9e02d9c7a?rik=cFXCxmmk%2fkjHoQ&riu=http%3a%2f%2feachdesk.com%2fgallery3%2f30%2ff4%2f74628%2f074628-1-02.jpg&ehk=Epf%2bO%2b27tTuK5GogqBZJP%2b1Gx6845ugFgYMQ15oHMtU%3d&risl=&pid=ImgRaw&r=0",
+      productName: "Red Hoodie",
+      cost: 1099,
+      discount: 0,
+      uid: "sdadas",
+      sellerName: "kshri",
+      sellerUid: "esfeds",
+      rating: 1,
+      noOfRating: 1,
+    ),
+  ),
+];
+
+List<String> keysOfRating = [
+  "Very Bad",
+  "Poor",
+  "Average",
+  "Good",
+  "Excellent",
 ];

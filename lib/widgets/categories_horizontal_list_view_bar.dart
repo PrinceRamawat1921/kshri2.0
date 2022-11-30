@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kshri2/Screens/results_screen.dart';
 import 'package:kshri2/utils/constants.dart';
 
 class CategoriesHorizontalListViewBar extends StatelessWidget {
@@ -15,7 +16,16 @@ class CategoriesHorizontalListViewBar extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             return GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ResultsScreen(
+                      query: categoriesList[index],
+                    ),
+                  ),
+                );
+              },
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 5,

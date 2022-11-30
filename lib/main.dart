@@ -48,21 +48,7 @@ class Kshri extends StatelessWidget {
               ),
             );
           } else if (user.hasData) {
-            //return const ScreenLayout();
-            return ProductScreen(
-              productModel: ProductModel(
-                url:
-                    "https://th.bing.com/th/id/R.6ecfcb4758fc8601eacf6cb9e02d9c7a?rik=cFXCxmmk%2fkjHoQ&riu=http%3a%2f%2feachdesk.com%2fgallery3%2f30%2ff4%2f74628%2f074628-1-02.jpg&ehk=Epf%2bO%2b27tTuK5GogqBZJP%2b1Gx6845ugFgYMQ15oHMtU%3d&risl=&pid=ImgRaw&r=0",
-                productName: "Red Hoodie",
-                cost: 1099,
-                discount: 0,
-                uid: "sdadas",
-                sellerName: "kshri",
-                sellerUid: "esfeds",
-                rating: 1,
-                noOfRating: 1,
-              ),
-            );
+            return const ScreenLayout();
           } else {
             return const SignInScreen();
           }

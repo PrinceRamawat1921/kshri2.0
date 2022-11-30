@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:kshri2/model/product_model.dart';
+import 'package:kshri2/model/review_model.dart';
 import 'package:kshri2/model/user_details_model.dart';
 import 'package:kshri2/utils/color_themes.dart';
 import 'package:kshri2/utils/constants.dart';
@@ -10,6 +11,8 @@ import 'package:kshri2/widgets/cost_widget.dart';
 import 'package:kshri2/widgets/custom_main_button.dart';
 import 'package:kshri2/widgets/custom_simple_rounded_button.dart';
 import 'package:kshri2/widgets/rating_star_widget.dart';
+import 'package:kshri2/widgets/review_dialog.dart';
+import 'package:kshri2/widgets/review_widget.dart';
 import 'package:kshri2/widgets/search_bar_widget.dart';
 import 'package:kshri2/widgets/user_details_bar.dart';
 
@@ -44,7 +47,8 @@ class _ProductScreenState extends State<ProductScreen> {
               child: Column(
                 children: [
                   SizedBox(
-                    height: screenSize.height,
+                    height: screenSize.height -
+                        (kAppBarHeight + (kAppBarHeight / 2)),
                     child: Column(
                       children: [
                         const SizedBox(
@@ -77,6 +81,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         Padding(
                           padding: const EdgeInsets.all(15),
                           child: Container(
+                            height: screenSize.height / 3,
                             constraints: BoxConstraints(
                                 maxHeight: screenSize.height / 3),
                             child: Image.network(
@@ -110,7 +115,12 @@ class _ProductScreenState extends State<ProductScreen> {
                         ),
                         spaceThingy,
                         CustomSimpleRoundedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => const ReviewDialog(),
+                            );
+                          },
                           text: "Add a review for this product",
                         ),
                       ],
@@ -118,6 +128,18 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                   SizedBox(
                     height: screenSize.height,
+                    child: ListView.builder(
+                      itemCount: 10,
+                      itemBuilder: ((context, index) {
+                        return ReviewWidget(
+                          review: ReviewModel(
+                            senderName: "Prince",
+                            description: "Very good product",
+                            rating: 5,
+                          ),
+                        );
+                      }),
+                    ),
                   )
                 ],
               ),

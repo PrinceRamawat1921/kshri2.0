@@ -1,6 +1,8 @@
 // ignore_for_file: sort_child_properties_last
 
 import 'package:flutter/material.dart';
+import 'package:kshri2/Screens/product_screen.dart';
+import 'package:kshri2/Screens/results_screen.dart';
 import 'package:kshri2/model/product_model.dart';
 import 'package:kshri2/utils/color_themes.dart';
 import 'package:kshri2/utils/utils.dart';
@@ -34,26 +36,36 @@ class CartItemWidget extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: screenSize.width / 3,
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Center(
-                      child: Image.network(
-                        product.url,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProductScreen(productModel: product),
+                  ),
+                );
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: screenSize.width / 3,
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Center(
+                        child: Image.network(
+                          product.url,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                ProductInformationWidget(
-                  productName: product.productName,
-                  cost: product.cost,
-                  sellerName: product.sellerName,
-                ),
-              ],
+                  ProductInformationWidget(
+                    productName: product.productName,
+                    cost: product.cost,
+                    sellerName: product.sellerName,
+                  ),
+                ],
+              ),
             ),
             flex: 3,
           ),
