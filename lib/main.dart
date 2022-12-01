@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kshri2/Screens/product_screen.dart';
 import 'package:kshri2/Screens/results_screen.dart';
+import 'package:kshri2/Screens/sell_screen.dart';
 import 'package:kshri2/Screens/sign_in_screen.dart';
 import 'package:kshri2/layout/screen_layout.dart';
 import 'package:kshri2/model/product_model.dart';
@@ -52,7 +53,8 @@ class Kshri extends StatelessWidget {
                 ),
               );
             } else if (user.hasData) {
-              return const ScreenLayout();
+              //return const ScreenLayout();
+              return const SellScreen();
             } else {
               return const SignInScreen();
             }

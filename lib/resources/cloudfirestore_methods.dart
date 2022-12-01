@@ -24,8 +24,6 @@ class CloudFirestoreClass {
       (snap.data() as dynamic),
     );
 
-    print(userModel.getJson());
-
     return userModel;
   }
 }
