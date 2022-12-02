@@ -1,12 +1,16 @@
 import 'dart:html';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:kshri2/providers/user_details_provider.dart';
+import 'package:kshri2/resources/cloudfirestore_methods.dart';
 import 'package:kshri2/utils/color_themes.dart';
 import 'package:kshri2/utils/utils.dart';
 import 'package:kshri2/widgets/custom_main_button.dart';
 import 'package:kshri2/widgets/loading_widget.dart';
 import 'package:kshri2/widgets/text_field_widget.dart';
+import 'package:provider/provider.dart';
 
 class SellScreen extends StatefulWidget {
   const SellScreen({super.key});
@@ -17,10 +21,11 @@ class SellScreen extends StatefulWidget {
 
 class _SellScreenState extends State<SellScreen> {
   bool isLoading = false;
-  int selected = 4;
+  int selected = 1;
   Uint8List? image;
   TextEditingController nameController = TextEditingController();
   TextEditingController costController = TextEditingController();
+  List<int> keysForDiscount = [0, 70, 60, 50];
 
   @override
   void dispose() {
@@ -163,7 +168,29 @@ class _SellScreenState extends State<SellScreen> {
                             ),
                             color: yellowColor,
                             isLoading: isLoading,
-                            onPressed: () {}),
+                            onPressed: () async {
+                              String output = await CloudFirestoreClass()
+                                  .uploadProductToDatabase(
+                                image: image,
+                                productName: nameController.text,
+                                rawCost: costController.text,
+                                discount: keysForDiscount[selected - 1],
+                                sellerName: Provider.of<UserDetailsProvider>(
+                                  context,
+                                  listen: false,
+                                ).userDetails.name,
+                                sellerUid:
+                                    FirebaseAuth.instance.currentUser!.uid,
+                              );
+                              if (output == "success") {
+                                Utils().showSnackBar(
+                                    context: context,
+                                    content: "Uploaded Successfully");
+                              } else {
+                                Utils().showSnackBar(
+                                    context: context, content: output);
+                              }
+                            }),
                         CustomMainButton(
                             child: const Text(
                               "Back",
@@ -171,7 +198,9 @@ class _SellScreenState extends State<SellScreen> {
                             ),
                             color: Colors.grey[300]!,
                             isLoading: isLoading,
-                            onPressed: () {})
+                            onPressed: () {
+                              Navigator.pop(context);
+                            })
                       ],
                     ),
                   ),

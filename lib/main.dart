@@ -53,8 +53,7 @@ class Kshri extends StatelessWidget {
                 ),
               );
             } else if (user.hasData) {
-              //return const ScreenLayout();
-              return const SellScreen();
+              return const ScreenLayout();
             } else {
               return const SignInScreen();
             }

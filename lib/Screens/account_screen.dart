@@ -1,4 +1,9 @@
+// ignore_for_file: sort_child_properties_last
+
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:kshri2/Screens/sell_screen.dart';
 import 'package:kshri2/model/user_details_model.dart';
 import 'package:kshri2/providers/user_details_provider.dart';
 import 'package:kshri2/utils/color_themes.dart';
@@ -34,7 +39,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: CustomMainButton(
                   child: const Text(
-                    "Sign In",
+                    "Sign Out",
                     style: TextStyle(
                       color: Colors.black,
                     ),
@@ -53,7 +58,13 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                   color: yellowColor,
                   isLoading: false,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SellScreen()),
+                    );
+                  },
                 ),
               ),
               ProductsShowcaseListView(
