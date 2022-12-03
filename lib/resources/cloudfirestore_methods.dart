@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:kshri2/model/product_model.dart';
 import 'package:kshri2/model/user_details_model.dart';
 import 'package:kshri2/utils/utils.dart';
+import 'package:kshri2/widgets/simple_product_widget.dart';
 
 class CloudFirestoreClass {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -83,5 +85,21 @@ class CloudFirestoreClass {
     UploadTask uploadTask = storageRef.putData(image);
     TaskSnapshot task = await uploadTask;
     return task.ref.getDownloadURL();
+  }
+
+  Future<List<Widget>> getProductsFromDiscount(int discount) async {
+    List<Widget> children = [];
+    QuerySnapshot<Map<String, dynamic>> snap = await firebaseFirestore
+        .collection("products")
+        .where("discount", isEqualTo: discount)
+        .get();
+
+    for (int i = 0; i < snap.docs.length; i++) {
+      DocumentSnapshot docSnap = snap.docs[i];
+      ProductModel model =
+          ProductModel.getModelFromJson(json: (docSnap.data() as dynamic));
+      children.add(SimpleProductWidget(productModel: model));
+    }
+    return children;
   }
 }

@@ -2,6 +2,7 @@
 
 import 'dart:html';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kshri2/Screens/sell_screen.dart';
 import 'package:kshri2/model/user_details_model.dart';
@@ -46,7 +47,9 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                   color: Colors.orange,
                   isLoading: false,
-                  onPressed: () {},
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut();
+                  },
                 ),
               ),
               Padding(

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kshri2/model/user_details_model.dart';
+import 'package:kshri2/resources/cloudfirestore_methods.dart';
 import 'package:kshri2/utils/constants.dart';
 import 'package:kshri2/widgets/banner_ad_widget.dart';
 import 'package:kshri2/widgets/categories_horizontal_list_view_bar.dart';
+import 'package:kshri2/widgets/loading_widget.dart';
 import 'package:kshri2/widgets/products_showcase_list_view.dart';
 import 'package:kshri2/widgets/search_bar_widget.dart';
 import 'package:kshri2/widgets/simple_product_widget.dart';
@@ -18,10 +20,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   ScrollController controller = ScrollController();
   double offset = 0;
+  List<Widget>? discount70;
+  List<Widget>? discount60;
+  List<Widget>? discount50;
+  List<Widget>? discount0;
 
   @override
   void initState() {
     super.initState();
+    getData();
     controller.addListener(() {
       setState(() {
         offset = controller.position.pixels;
@@ -35,6 +42,23 @@ class _HomeScreenState extends State<HomeScreen> {
     controller.dispose();
   }
 
+  void getData() async {
+    List<Widget> temp70 =
+        await CloudFirestoreClass().getProductsFromDiscount(70);
+    List<Widget> temp60 =
+        await CloudFirestoreClass().getProductsFromDiscount(60);
+    List<Widget> temp50 =
+        await CloudFirestoreClass().getProductsFromDiscount(50);
+    List<Widget> temp0 = await CloudFirestoreClass().getProductsFromDiscount(0);
+
+    setState(() {
+      discount70 = temp70;
+      discount60 = temp60;
+      discount50 = temp50;
+      discount0 = temp0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,33 +66,38 @@ class _HomeScreenState extends State<HomeScreen> {
         isReadOnly: true,
         hasBackButton: false,
       ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            controller: controller,
-            child: Column(
+      body: discount0 != null &&
+              discount50 != null &&
+              discount60 != null &&
+              discount70 != null
+          ? Stack(
               children: [
-                SizedBox(
-                  height: kAppBarHeight / 2,
+                SingleChildScrollView(
+                  controller: controller,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: kAppBarHeight / 2,
+                      ),
+                      CategoriesHorizontalListViewBar(),
+                      BannerAdWidget(),
+                      ProductsShowcaseListView(
+                          title: "Upto 70% Off", children: discount70!),
+                      ProductsShowcaseListView(
+                          title: "Upto 60% Off", children: discount60!),
+                      ProductsShowcaseListView(
+                          title: "Upto 50% Off", children: discount50!),
+                      ProductsShowcaseListView(
+                          title: "Explore", children: discount0!),
+                    ],
+                  ),
                 ),
-                CategoriesHorizontalListViewBar(),
-                BannerAdWidget(),
-                ProductsShowcaseListView(
-                    title: "Upto 70% Off", children: testChildren),
-                ProductsShowcaseListView(
-                    title: "Upto 60% Off", children: testChildren),
-                ProductsShowcaseListView(
-                    title: "Upto 50% Off", children: testChildren),
-                ProductsShowcaseListView(
-                    title: "Explore", children: testChildren),
+                UserDetailsBar(
+                  offset: offset,
+                ),
               ],
-            ),
-          ),
-          UserDetailsBar(
-            offset: offset,
-          ),
-        ],
-      ),
+            )
+          : const LoadingWidget(),
     );
   }
 }
