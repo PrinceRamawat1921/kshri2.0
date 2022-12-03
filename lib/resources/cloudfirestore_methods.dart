@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:kshri2/model/product_model.dart';
+import 'package:kshri2/model/review_model.dart';
 import 'package:kshri2/model/user_details_model.dart';
 import 'package:kshri2/utils/utils.dart';
 import 'package:kshri2/widgets/simple_product_widget.dart';
@@ -101,5 +102,14 @@ class CloudFirestoreClass {
       children.add(SimpleProductWidget(productModel: model));
     }
     return children;
+  }
+
+  Future uploadReviewToDatabase(
+      {required String productUid, required ReviewModel model}) async {
+    await firebaseFirestore
+        .collection("products")
+        .doc(productUid)
+        .collection("reviews")
+        .add(model.getJson());
   }
 }

@@ -1,5 +1,6 @@
 // ignore_for_file: sort_child_properties_last
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kshri2/model/product_model.dart';
 import 'package:kshri2/model/review_model.dart';
@@ -118,7 +119,9 @@ class _ProductScreenState extends State<ProductScreen> {
                           onPressed: () {
                             showDialog(
                               context: context,
-                              builder: (context) => const ReviewDialog(),
+                              builder: (context) => ReviewDialog(
+                                productUid: widget.productModel.uid,
+                              ),
                             );
                           },
                           text: "Add a review for this product",
@@ -128,23 +131,36 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                   SizedBox(
                     height: screenSize.height,
-                    child: ListView.builder(
-                      itemCount: 10,
-                      itemBuilder: ((context, index) {
-                        return ReviewWidget(
-                          review: ReviewModel(
-                            senderName: "Prince",
-                            description: "Very good product",
-                            rating: 5,
-                          ),
-                        );
-                      }),
+                    child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection("products")
+                          .doc(widget.productModel.uid)
+                          .collection("reviews")
+                          .snapshots(),
+                      builder: (context,
+                          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                              snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Container();
+                        } else {
+                          return ListView.builder(
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                ReviewModel model =
+                                    ReviewModel.getModelFromJson(
+                                        json:
+                                            snapshot.data!.docs[index].data());
+                                return ReviewWidget(review: model);
+                              });
+                        }
+                      },
                     ),
-                  )
+                  ),
                 ],
               ),
             )),
-            UserDetailsBar(
+            const UserDetailsBar(
               offset: 0,
             ),
           ],
