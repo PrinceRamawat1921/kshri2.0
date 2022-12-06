@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kshri2/Screens/search_screen.dart';
 import 'package:kshri2/utils/color_themes.dart';
 import 'package:kshri2/utils/constants.dart';
 import 'package:kshri2/utils/utils.dart';
@@ -43,7 +44,14 @@ class AccountScreenAppBar extends StatelessWidget with PreferredSizeWidget {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchScreen(),
+                    ),
+                  );
+                },
                 icon: const Icon(
                   Icons.search_outlined,
                   color: Colors.black,

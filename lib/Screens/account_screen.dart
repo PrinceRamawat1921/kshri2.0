@@ -2,9 +2,12 @@
 
 import 'dart:html';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kshri2/Screens/sell_screen.dart';
+import 'package:kshri2/model/order_request_model.dart';
+import 'package:kshri2/model/product_model.dart';
 import 'package:kshri2/model/user_details_model.dart';
 import 'package:kshri2/providers/user_details_provider.dart';
 import 'package:kshri2/utils/color_themes.dart';
@@ -13,6 +16,7 @@ import 'package:kshri2/utils/utils.dart';
 import 'package:kshri2/widgets/account_screen_app_bar.dart';
 import 'package:kshri2/widgets/custom_main_button.dart';
 import 'package:kshri2/widgets/products_showcase_list_view.dart';
+import 'package:kshri2/widgets/simple_product_widget.dart';
 import 'package:provider/provider.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -70,10 +74,28 @@ class _AccountScreenState extends State<AccountScreen> {
                   },
                 ),
               ),
-              ProductsShowcaseListView(
-                title: "Your Orders",
-                children: testChildren,
-              ),
+              FutureBuilder(
+                  future: FirebaseFirestore.instance
+                      .collection("users")
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .collection("orders")
+                      .get(),
+                  builder: (context,
+                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                          snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Container();
+                    } else {
+                      List<Widget> children = [];
+                      for (int i = 0; i < snapshot.data!.docs.length; i++) {
+                        ProductModel model = ProductModel.getModelFromJson(
+                            json: snapshot.data!.docs[i].data());
+                        children.add(SimpleProductWidget(productModel: model));
+                      }
+                      return ProductsShowcaseListView(
+                          title: "Your orders", children: children);
+                    }
+                  }),
               const Padding(
                 padding: EdgeInsets.all(15),
                 child: Align(
@@ -85,19 +107,47 @@ class _AccountScreenState extends State<AccountScreen> {
                 ),
               ),
               Expanded(
-                  child: ListView.builder(
-                      itemCount: 5,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: const Text(
-                            "Order: Black Hoodie",
-                            style: TextStyle(fontWeight: FontWeight.w500),
-                          ),
-                          subtitle: const Text("Address: Dhenkikote"),
-                          trailing: IconButton(
-                              onPressed: () {}, icon: Icon(Icons.check)),
-                        );
-                      }))
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection("users")
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .collection("orderRequests")
+                      .snapshots(),
+                  builder: (context,
+                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                          snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Container();
+                    } else {
+                      return ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: ((context, index) {
+                            OrderRequestModel model =
+                                OrderRequestModel.getModelFromJson(
+                                    json: snapshot.data!.docs[index].data());
+                            return ListTile(
+                              title: Text(
+                                "Order: ${model.orderName}",
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
+                              subtitle: Text("Address: ${model.buyersAddress}"),
+                              trailing: IconButton(
+                                  onPressed: () async {
+                                    FirebaseFirestore.instance
+                                        .collection("users")
+                                        .doc(FirebaseAuth
+                                            .instance.currentUser!.uid)
+                                        .collection("orderRequests")
+                                        .doc(snapshot.data!.docs[index].id)
+                                        .delete();
+                                  },
+                                  icon: Icon(Icons.check)),
+                            );
+                          }));
+                    }
+                  },
+                ),
+              ),
             ],
           ),
         ),

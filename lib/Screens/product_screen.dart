@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:kshri2/model/product_model.dart';
 import 'package:kshri2/model/review_model.dart';
 import 'package:kshri2/model/user_details_model.dart';
+import 'package:kshri2/providers/user_details_provider.dart';
+import 'package:kshri2/resources/cloudfirestore_methods.dart';
 import 'package:kshri2/utils/color_themes.dart';
 import 'package:kshri2/utils/constants.dart';
 import 'package:kshri2/utils/utils.dart';
@@ -16,6 +18,7 @@ import 'package:kshri2/widgets/review_dialog.dart';
 import 'package:kshri2/widgets/review_widget.dart';
 import 'package:kshri2/widgets/search_bar_widget.dart';
 import 'package:kshri2/widgets/user_details_bar.dart';
+import 'package:provider/provider.dart';
 
 class ProductScreen extends StatefulWidget {
   final ProductModel productModel;
@@ -102,7 +105,16 @@ class _ProductScreenState extends State<ProductScreen> {
                           ),
                           color: Colors.orange,
                           isLoading: false,
-                          onPressed: () {},
+                          onPressed: () async {
+                            await CloudFirestoreClass().addProductToOrders(
+                                model: widget.productModel,
+                                userDetails: Provider.of<UserDetailsProvider>(
+                                        context,
+                                        listen: false)
+                                    .userDetails);
+                            Utils().showSnackBar(
+                                context: context, content: "Successful");
+                          },
                         ),
                         spaceThingy,
                         CustomMainButton(
@@ -112,7 +124,12 @@ class _ProductScreenState extends State<ProductScreen> {
                           ),
                           color: yellowColor,
                           isLoading: false,
-                          onPressed: () {},
+                          onPressed: () async {
+                            await CloudFirestoreClass().addProductToCart(
+                                productModel: widget.productModel);
+                            Utils().showSnackBar(
+                                context: context, content: "Added to cart");
+                          },
                         ),
                         spaceThingy,
                         CustomSimpleRoundedButton(

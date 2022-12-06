@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kshri2/Screens/product_screen.dart';
 import 'package:kshri2/model/product_model.dart';
 import 'package:kshri2/utils/color_themes.dart';
 import 'package:kshri2/utils/utils.dart';
@@ -17,7 +18,14 @@ class ResultsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = Utils().getScreenSize();
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductScreen(productModel: product),
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 10,

@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kshri2/model/product_model.dart';
+import 'package:kshri2/widgets/loading_widget.dart';
 import 'package:kshri2/widgets/results_widget.dart';
 import 'package:kshri2/widgets/search_bar_widget.dart';
 
@@ -45,30 +47,29 @@ class ResultsScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: GridView.builder(
-              itemCount: 9,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 2 / 3,
-              ),
-              itemBuilder: ((context, index) {
-                return ResultsWidget(
-                  product: ProductModel(
-                    url:
-                        "https://th.bing.com/th/id/R.6ecfcb4758fc8601eacf6cb9e02d9c7a?rik=cFXCxmmk%2fkjHoQ&riu=http%3a%2f%2feachdesk.com%2fgallery3%2f30%2ff4%2f74628%2f074628-1-02.jpg&ehk=Epf%2bO%2b27tTuK5GogqBZJP%2b1Gx6845ugFgYMQ15oHMtU%3d&risl=&pid=ImgRaw&r=0",
-                    productName: "Red Hoodie",
-                    cost: 1099,
-                    discount: 0,
-                    uid: "sdadas",
-                    sellerName: "kshri",
-                    sellerUid: "esfeds",
-                    rating: 4,
-                    noOfRating: 1,
-                  ),
+              child: FutureBuilder(
+            future: FirebaseFirestore.instance
+                .collection("products")
+                .where("productName", isEqualTo: query)
+                .get(),
+            builder: (context,
+                AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const LoadingWidget();
+              } else {
+                return GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3, childAspectRatio: 2 / 3.5),
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: ((context, index) {
+                    ProductModel product = ProductModel.getModelFromJson(
+                        json: snapshot.data!.docs[index].data());
+                    return ResultsWidget(product: product);
+                  }),
                 );
-              }),
-            ),
-          ),
+              }
+            },
+          )),
         ],
       ),
     );

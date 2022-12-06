@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kshri2/Screens/product_screen.dart';
 import 'package:kshri2/Screens/results_screen.dart';
 import 'package:kshri2/model/product_model.dart';
+import 'package:kshri2/resources/cloudfirestore_methods.dart';
 import 'package:kshri2/utils/color_themes.dart';
 import 'package:kshri2/utils/utils.dart';
 import 'package:kshri2/widgets/custom_simple_rounded_button.dart';
@@ -89,7 +90,19 @@ class CartItemWidget extends StatelessWidget {
                 ),
                 CustomSquareButton(
                   child: const Icon(Icons.add),
-                  onPressed: () {},
+                  onPressed: () async {
+                    await CloudFirestoreClass().addProductToCart(
+                        productModel: ProductModel(
+                            url: product.url,
+                            productName: product.productName,
+                            cost: product.cost,
+                            discount: product.discount,
+                            uid: Utils().getUid(),
+                            sellerName: product.sellerName,
+                            sellerUid: product.sellerUid,
+                            rating: product.rating,
+                            noOfRating: product.noOfRating));
+                  },
                   color: backgroundColor,
                   dimension: 40,
                 ),
@@ -106,7 +119,11 @@ class CartItemWidget extends StatelessWidget {
                   Row(
                     children: [
                       CustomSimpleRoundedButton(
-                          onPressed: () {}, text: "Delete"),
+                          onPressed: () async {
+                            CloudFirestoreClass()
+                                .deleteProductFromCart(uid: product.uid);
+                          },
+                          text: "Delete"),
                       const SizedBox(
                         width: 5,
                       ),
@@ -122,6 +139,7 @@ class CartItemWidget extends StatelessWidget {
                         "See more like this",
                         style: TextStyle(
                           color: activeCyanColor,
+                          fontSize: 12,
                         ),
                       ),
                     ),
